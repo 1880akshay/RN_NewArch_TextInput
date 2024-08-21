@@ -5,47 +5,36 @@
  * @format
  */
 
-import React, {useMemo, useState} from 'react';
-import {
-  SafeAreaView,
-  StatusBar,
-  TextInput,
-  useColorScheme,
-  View,
-} from 'react-native';
+import React from 'react';
+import {TextInput, View} from 'react-native';
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+
+const Stack = createNativeStackNavigator();
+
+const Screen1 = () => {
+  return (
+    <View style={{flex: 1, padding: 30, justifyContent: 'flex-end'}}>
+      <TextInput
+        placeholder="test"
+        style={{borderWidth: 1, borderColor: 'black', height: 60}}
+      />
+    </View>
+  );
+};
 
 function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  const [focus, setFocus] = useState(false);
-
-  const containerStyle = useMemo(
-    () => [{width: '100%'}, focus && {elevation: 3}],
-    [focus],
-  );
-
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-
-      <View style={containerStyle}>
-        <TextInput
-          placeholder="Text"
-          style={{height: 60, width: 300, borderColor: 'black', borderWidth: 1}}
-          onFocus={() => setFocus(true)}
-          onBlur={() => setFocus(false)}
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Screen1"
+          component={Screen1}
+          options={{statusBarTranslucent: true}}
         />
-      </View>
-    </SafeAreaView>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
